@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-extrabold text-gray-900 mb-8 tracking-tight text-center sm:text-left">Latest Products</h2>
+
+<!-- Dynamic Product Grid Layout -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for product in products %}
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between">
+            <div>
+                <!-- Image Wrapper -->
+                <div class="bg-gray-100 h-48 w-full flex items-center justify-center overflow-hidden">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover h-full w-full hover:scale-105 transition-transform duration-300">
+                    {% else %}
+                        <span class="text-gray-400 text-sm">No Image Available</span>
+                    {% endif %}
+                </div>
+                <!-- Content Area -->
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 truncate mb-1">{{ product.name }}</h3>
+                    <p class="text-sm text-gray-500 line-clamp-2 min-h-[40px]">{{ product.description|default:"" }}</p>
+                </div>
+            </div>
+            <!-- Bottom Pricing and CTA -->
+            <div class="p-4 pt-0 border-t border-gray-50 mt-4 flex items-center justify-between">
+                <span class="text-xl font-bold text-gray-900">${{ product.price }}</span>
+<a href="{% url 'products:product_detail' product.category.slug product.slug %}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">View Details</a>
+
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-span-full text-center py-12">
+            <p class="text-gray-500 text-lg">No products found. Visit the admin dashboard to add some inventory!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+<section class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+    <!-- 1. Gross Revenues Summary Box -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Gross Revenue</span>
+        <span class="text-xl font-black text-white font-mono">${{ total_revenue }}</span>
+    </div>
+
+    <!-- 2. Developer Total Accumulated Cut -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <span class="text-xs font-bold text-blue-400 uppercase tracking-wider block mb-1">Dev Cut Total</span>
+        <span class="text-xl font-black text-blue-400 font-mono">${{ total_dev_royalty }}</span>
+    </div>
+
+    <!-- 3. Total Amount Already Paid to Dev -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">Paid to Dev</span>
+        <span class="text-xl font-black text-emerald-400 font-mono">${{ total_paid_to_dev }}</span>
+    </div>
+
+    <!-- 4. Remaining Balance Outstanding -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block mb-1">Dev Outstanding</span>
+        <span class="text-xl font-black text-amber-400 font-mono">${{ dev_outstanding }}</span>
+    </div>
+
+    <!-- 5. Operational Expenses Summary Box -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Operating Costs</span>
+        <span class="text-xl font-black text-rose-400 font-mono">${{ total_expenses }}</span>
+    </div>
+
+    <!-- 6. Net Cash Balanced Profit Box -->
+    <div class="border rounded-2xl p-5 shadow-xl {% if net_profit >= 0 %}bg-emerald-950/20 border-emerald-500/30{% else %}bg-rose-950/20 border-rose-500/30{% endif %}">
+        <span class="text-xs font-bold uppercase tracking-wider block mb-1 {% if net_profit >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">Net Balance</span>
+        <span class="text-xl font-black font-mono {% if net_profit >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">${{ net_profit }}</span>
+    </div>
+</section>

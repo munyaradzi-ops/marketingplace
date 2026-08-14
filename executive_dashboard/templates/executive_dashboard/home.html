@@ -1,0 +1,22 @@
+{% extends 'executive_dashboard/base.html' %}
+
+{% block title %}Executive Suite Console Dashboard{% endblock %}
+
+{% block content %}
+
+    <!-- 1. KPI Financial Overview Row Layout -->
+    {% include 'executive_dashboard/includes/_metrics.html' %}
+
+    <!-- 2. Product Deployment and Editing Form Grid -->
+    {% include 'executive_dashboard/includes/_products.html' %}
+
+    <!-- 3. NEW: Developer Royalty and Payout Audit Ledger Row -->
+    {% include 'executive_dashboard/includes/_dev_ledger.html' %}
+
+    <!-- 4. Manual Order Creation Management Module Component -->
+    {% include 'executive_dashboard/includes/_manual_order.html' %}
+
+    <!-- 5. Customer Orders Verification Log Table -->
+    {% include 'executive_dashboard/includes/_orders.html' %}
+
+{% endblock %}

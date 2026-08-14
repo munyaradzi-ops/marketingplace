@@ -1,0 +1,82 @@
+<section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+    <div>
+        <h2 class="text-base font-bold text-white tracking-tight">Manually Place a Customer Order</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Log custom mail orders or phone-in transactions directly into the storefront database records.</p>
+    </div>
+    
+    <form action="{% url 'executive_dashboard:manual_order_create' %}" method="post" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% csrf_token %}
+        
+        <!-- Left Column: Customer Basic Information -->
+        <div class="space-y-3">
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">First Name</label>
+                <input type="text" name="first_name" placeholder="John" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+            </div>
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Last Name</label>
+                <input type="text" name="last_name" placeholder="Doe" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+            </div>
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Email Address</label>
+                <input type="email" name="email" placeholder="john.doe@example.com" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+            </div>
+        </div>
+
+        <!-- Middle Column: Shipment Destination Coordinates -->
+        <div class="space-y-3">
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Street Address</label>
+                <input type="text" name="address" placeholder="123 Main St" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">City</label>
+                    <input type="text" name="city" placeholder="Harare" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Postal Code</label>
+                    <input type="text" name="postal_code" placeholder="0000" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Payment Status</label>
+                    <select name="paid" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none">
+                        <option value="true">Paid Instantly</option>
+                        <option value="false" selected>Pending Payment</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Delivery Status</label>
+                    <select name="delivered" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none">
+                        <option value="true">Dispatched/Delivered</option>
+                        <option value="false" selected>Awaiting Dispatch</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Line Select and Form Trigger Button -->
+        <div class="space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Select Product Item</label>
+                    <select name="product" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700">
+                        {% for prod in products %}
+                            <option value="{{ prod.id }}">{{ prod.name }} (${{ prod.price }} - {{ prod.stock_count }} left)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Order Quantity Amount</label>
+                    <input type="number" name="quantity" value="1" min="1" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700 font-mono" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl transition-all uppercase tracking-wide shadow-md shadow-emerald-950/40">
+                Log Manual Transaction
+            </button>
+        </div>
+    </form>
+</section>

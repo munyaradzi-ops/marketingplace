@@ -1,0 +1,55 @@
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <!-- Left 2 Columns: Payout Logs History -->
+    <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
+        <h3 class="text-sm font-bold text-white mb-4">Developer Payout Audit Logs</h3>
+        <table class="w-full text-left text-sm text-slate-400">
+            <thead>
+                <tr class="border-b border-slate-800 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                    <th class="pb-2">Date Transferred</th>
+                    <th class="pb-2">Transaction Reference / Method</th>
+                    <th class="pb-2 text-right">Amount Cleared</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payout in payouts %}
+                <tr class="border-b border-slate-800/25 hover:bg-slate-950/20 transition-colors">
+                    <td class="py-3 text-xs font-mono text-slate-400">{{ payout.payout_date }}</td>
+                    <td class="py-3 text-xs text-slate-200 font-medium">{{ payout.reference_note|default:"No reference provided" }}</td>
+                    <td class="py-3 text-right font-mono text-xs font-bold text-emerald-400">-${{ payout.amount_paid }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center py-6 text-xs text-slate-600 font-medium">No payout logs recorded on file yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Right Column: Log New Cash Payment Form -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-fit space-y-4 shadow-2xl">
+        <div>
+            <h3 class="text-sm font-bold text-white tracking-tight">Record Developer Payout</h3>
+            <p class="text-[11px] text-slate-500 mt-0.5">Log custom payouts here to reduce the developer's outstanding balance metric dynamically.</p>
+        </div>
+        <form action="{% url 'executive_dashboard:log_dev_payout' %}" method="post" class="space-y-3">
+            {% csrf_token %}
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Amount Transferred ($)</label>
+                <input type="number" name="amount_paid" placeholder="0.00" step="0.01" min="0.01" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700 font-mono" required>
+            </div>
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Transfer Date</label>
+                <input type="date" name="payout_date" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700 font-mono" required>
+            </div>
+            <div>
+                <label class="block text-[10px] text-slate-500 font-extrabold uppercase mb-1">Reference Note</label>
+                <input type="text" name="reference_note" placeholder="e.g. EcoCash Ref: Tx12984" class="w-full bg-slate-950 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-slate-700" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-2.5 rounded-xl transition-all uppercase tracking-wide">
+                Commit Payout Entry
+            </button>
+        </form>
+    </div>
+</section>

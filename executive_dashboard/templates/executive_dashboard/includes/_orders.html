@@ -1,0 +1,129 @@
+<section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
+    <div class="mb-5">
+        <h3 class="text-sm font-bold text-white mb-1">Order Fulfillment Tracker</h3>
+        <p class="text-xs text-slate-500">Click on any Customer Name link to pop open their full shipping and contact information profile sheet.</p>
+    </div>
+    
+    <table class="w-full text-left text-sm text-slate-400">
+        <thead>
+            <tr class="border-b border-slate-800 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                <th class="pb-2">Order</th>
+                <th class="pb-2">Customer Name (Click to view profile)</th>
+                <th class="pb-2">Total Invoice</th>
+                <th class="pb-2 text-center">Payment Status</th>
+                <th class="pb-2 text-right">Logistics Dispatch</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in all_orders %}
+            <tr class="border-b border-slate-800/20 hover:bg-slate-950/30 transition-colors">
+                <td class="py-3.5 font-mono text-xs text-slate-500">#{{ order.id }}</td>
+                
+                <!-- Interactive Profile Anchor Trigger Tag -->
+                <td class="py-3.5">
+                    <button type="button" 
+                            onclick="openCustomerModal('{{ order.id }}', '{{ order.first_name|escapejs }} {{ order.last_name|escapejs }}', '{{ order.email|escapejs }}', '{{ order.address|escapejs }}', '{{ order.city|escapejs }}', '{{ order.postal_code|escapejs }}', '{{ order.created_at|date:'M d, Y H:i' }}')" 
+                            class="text-blue-400 hover:text-blue-300 font-semibold hover:underline transition-colors text-left focus:outline-none">
+                        {{ order.first_name }} {{ order.last_name }} &rarr;
+                    </button>
+                </td>
+                
+                <td class="py-3.5 font-mono text-xs text-slate-200 font-bold">${{ order.get_total_cost }}</td>
+                <td class="py-3.5 text-center">
+                    <form action="{% url 'executive_dashboard:toggle_payment' order.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border transition-colors {% if order.paid %}bg-emerald-950 text-emerald-400 border-emerald-800/60 hover:bg-emerald-900/20{% else %}bg-rose-950 text-rose-400 border-rose-800/60 hover:bg-rose-900/20{% endif %}">
+                            {% if order.paid %}Paid{% else %}Unpaid{% endif %}
+                        </button>
+                    </form>
+                </td>
+                <td class="py-3.5 text-right">
+                    <form action="{% url 'executive_dashboard:toggle_delivery' order.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border transition-colors {% if order.delivered %}bg-blue-950 text-blue-400 border-blue-500/60 hover:bg-blue-900/20{% else %}bg-amber-950 text-amber-400 border-amber-800/60 hover:bg-amber-900/20{% endif %}">
+                            {% if order.delivered %}Delivered{% else %}Pending{% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center py-8 text-xs text-slate-600 font-medium">No checkout log rows verified.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<!-- Standalone Global Customer Details Overlay Popup Modal Box -->
+<div id="customerDetailModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-6 relative transform scale-95 transition-transform duration-300 ease-out" id="modalCard">
+        
+        <!-- Top Dialog Controls -->
+        <div class="flex justify-between items-start mb-5 pb-3 border-b border-slate-800">
+            <div>
+                <span id="modalOrderId" class="text-[10px] font-mono font-bold bg-slate-950 border border-slate-800 text-slate-500 px-2 py-0.5 rounded">ORDER DETAILS</span>
+                <h4 class="text-base font-bold text-white mt-1">Customer Profile Sheet</h4>
+            </div>
+            <button type="button" onclick="closeCustomerModal()" class="text-slate-500 hover:text-slate-300 font-bold text-sm bg-slate-950/40 hover:bg-slate-950 px-2 py-1 rounded transition-colors">&times; Close</button>
+        </div>
+
+        <!-- Populated Consumer Values Block -->
+        <div class="space-y-4 text-xs">
+            <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Full Legal Name</label>
+                <p id="modalCustomerName" class="text-sm font-semibold text-slate-100 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/40"></p>
+            </div>
+            <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Contact Email Address</label>
+                <p id="modalCustomerEmail" class="text-sm font-mono text-blue-400 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/40"></p>
+            </div>
+            <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Shipping Destination Route</label>
+                <div class="bg-slate-950/40 p-3 rounded-xl border border-slate-800/40 space-y-1 text-slate-300 font-medium">
+                    <p id="modalCustomerAddress"></p>
+                    <p><span id="modalCustomerCity"></span>, <span id="modalCustomerPostalCode" class="font-mono text-slate-400 text-[11px]"></span></p>
+                </div>
+            </div>
+            <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Transaction Creation Timestamp</label>
+                <p id="modalOrderDate" class="font-mono text-slate-400 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/40"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Control Script Block Injection -->
+<script>
+    function openCustomerModal(id, name, email, address, city, zip, date) {
+        const modal = document.getElementById('customerDetailModal');
+        const card = document.getElementById('modalCard');
+        
+        // Feed text assignments dynamically inside the target tags
+        document.getElementById('modalOrderId').innerText = `ORDER #${id}`;
+        document.getElementById('modalCustomerName').innerText = name;
+        document.getElementById('modalCustomerEmail').innerText = email;
+        document.getElementById('modalCustomerAddress').innerText = address;
+        document.getElementById('modalCustomerCity').innerText = city;
+        document.getElementById('modalCustomerPostalCode').innerText = zip;
+        document.getElementById('modalOrderDate').innerText = date;
+
+        // Perform animation triggers transition rendering toggles smoothly
+        modal.classList.remove('hidden');
+        setTimeout(() => { card.classList.remove('scale-95'); }, 10);
+    }
+
+    function closeCustomerModal() {
+        const modal = document.getElementById('customerDetailModal');
+        const card = document.getElementById('modalCard');
+        
+        card.add('scale-95');
+        modal.classList.add('hidden');
+    }
+
+    // Dismiss overlay box if manager clicks on dark blurring backdrops securely
+    window.onclick = function(event) {
+        const modal = document.getElementById('customerDetailModal');
+        if (event.target == modal) { closeCustomerModal(); }
+    }
+</script>

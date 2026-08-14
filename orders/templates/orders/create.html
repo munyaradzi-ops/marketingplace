@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Checkout Securely{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-extrabold text-gray-900 mb-8 tracking-tight">Shipping and Payment</h1>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Customer Submission Data Block Form -->
+    <div class="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-50">Delivery Address Details</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ field.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-colors mt-6">
+                Place Order Now
+            </button>
+        </form>
+    </div>
+
+    <!-- Right Side Summary Module -->
+    <div class="bg-gray-100 border border-gray-200 rounded-2xl p-6 h-fit">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Order Summary</h2>
+        <ul class="divide-y divide-gray-200 mb-4">
+            {% for item in cart %}
+                <li class="py-3 flex justify-between text-sm text-gray-600">
+                    <span>{{ item.product.name }} <strong class="text-gray-900">x{{ item.quantity }}</strong></span>
+                    <span class="font-medium text-gray-900">${{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="pt-4 border-t border-gray-300 flex justify-between items-center text-gray-900 font-bold text-lg">
+            <span>Total Payable:</span>
+            <span>${{ cart.get_total_price }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- Apply Clean Tailwind Input Fields Globally via script inject safely -->
+<script>
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+        el.className = "w-full border border-gray-300 px-4 py-2.5 rounded-xl text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-gray-50";
+    });
+</script>
+{% endblock %}

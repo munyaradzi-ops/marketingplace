@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # Replace 'core.urls' with the correct app module name
+path('', include('marketplace.urls')),
     path('admin/', admin.site.urls),
     path('executive-suite/', include('executive_dashboard.urls')), # Dashboard link
     path('', include('core.urls')),

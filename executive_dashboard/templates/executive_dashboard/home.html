@@ -1,22 +1,82 @@
+<!-- executive_dashboard/home.html -->
 {% extends 'executive_dashboard/base.html' %}
 
 {% block title %}Executive Suite Console Dashboard{% endblock %}
 
 {% block content %}
 
-    <!-- 1. KPI Financial Overview Row Layout -->
-    {% include 'executive_dashboard/includes/_metrics.html' %}
+    <!-- 1. The Tab Navigation Bar -->
+    <div class="border-b border-slate-800 mb-8 pb-px flex space-x-6" id="dashboard-tabs">
+        <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn pb-4 text-sm font-bold border-b-2 border-blue-500 text-blue-400 focus:outline-none transition-colors">
+            📊 Core Overview
+        </button>
+        <button onclick="switchTab('products')" id="tab-products" class="tab-btn pb-4 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none transition-colors">
+            📦 Product Management
+        </button>
+        <button onclick="switchTab('finance')" id="tab-finance" class="tab-btn pb-4 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none transition-colors">
+            💰 Ledger & Payouts
+        </button>
+        <button onclick="switchTab('fulfillment')" id="tab-fulfillment" class="tab-btn pb-4 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none transition-colors">
+            🚚 Order Fulfillment Tracker
+        </button>
+    </div>
 
-    <!-- 2. Product Deployment and Editing Form Grid -->
-    {% include 'executive_dashboard/includes/_products.html' %}
+    <!-- 2. Dynamic Content Panes -->
+    <div class="space-y-8">
+        
+        <!-- PANE A: CORE OVERVIEW -->
+        <div id="pane-overview" class="tab-pane">
+            <!-- KPI Financial Overview Row Layout -->
+            {% include 'executive_dashboard/includes/_metrics.html' %}
+        </div>
 
-    <!-- 3. NEW: Developer Royalty and Payout Audit Ledger Row -->
-    {% include 'executive_dashboard/includes/_dev_ledger.html' %}
+        <!-- PANE B: PRODUCT MANAGEMENT -->
+        <div id="pane-products" class="tab-pane hidden">
+            <!-- Product Deployment and Editing Form Grid -->
+            {% include 'executive_dashboard/includes/_products.html' %}
+            
+            <!-- Manual Order Creation Management Module Component -->
+            <div class="mt-8">
+                {% include 'executive_dashboard/includes/_manual_order.html' %}
+            </div>
+        </div>
 
-    <!-- 4. Manual Order Creation Management Module Component -->
-    {% include 'executive_dashboard/includes/_manual_order.html' %}
+        <!-- PANE C: LEDGER & PAYOUTS -->
+        <div id="pane-finance" class="tab-pane hidden">
+            <!-- Developer Royalty and Payout Audit Ledger Row -->
+            {% include 'executive_dashboard/includes/_dev_ledger.html' %}
+        </div>
 
-    <!-- 5. Customer Orders Verification Log Table -->
-    {% include 'executive_dashboard/includes/_orders.html' %}
+        <!-- PANE D: ORDER FULFILLMENT -->
+        <div id="pane-fulfillment" class="tab-pane hidden">
+            <!-- Isolated Logistics & Orders Section -->
+            {% include 'executive_dashboard/includes/_orders.html' %}
+        </div>
+
+    </div>
+
+    <!-- 3. Simple Tab Switching Engine Script -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all content panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+            
+            // Reset all tab button styles to unselected
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-400', 'font-bold');
+                btn.classList.add('border-transparent', 'text-slate-400', 'font-semibold');
+            });
+
+            // Show selected content pane
+            document.getElementById('pane-' + tabId).classList.remove('hidden');
+
+            // Apply selected styles to the active button
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('border-transparent', 'text-slate-400', 'font-semibold');
+            activeBtn.classList.add('border-blue-500', 'text-blue-400', 'font-bold');
+        }
+    </script>
 
 {% endblock %}

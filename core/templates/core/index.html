@@ -1,40 +1,111 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Welcome{% endblock %}
+{% block title %}Explore Latest Digital Assets | Control Console Storefront{% endblock %}
 
 {% block content %}
-<h2 class="text-3xl font-extrabold text-gray-900 mb-8 tracking-tight text-center sm:text-left">Latest Products</h2>
+<div class="space-y-12">
 
-<!-- Dynamic Product Grid Layout -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {% for product in products %}
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between">
-            <div>
-                <!-- Image Wrapper -->
-                <div class="bg-gray-100 h-48 w-full flex items-center justify-center overflow-hidden">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover h-full w-full hover:scale-105 transition-transform duration-300">
-                    {% else %}
-                        <span class="text-gray-400 text-sm">No Image Available</span>
-                    {% endif %}
+    <!-- 1. PREMIUM MARKETPLACE HERO BRANDING BANNER -->
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 border border-slate-800 p-8 md:p-12 shadow-2xl">
+        <!-- Visual design grid accents -->
+        <div class="absolute top-0 right-0 -mt-12 -mr-12 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -mb-12 -ml-12 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative max-w-2xl space-y-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                ✨ Live Global Marketplace Ecosystem
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                Discover next-gen <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">products & assets</span> built for scale.
+            </h1>
+            <p class="text-sm md:text-base text-slate-400 max-w-lg leading-relaxed">
+                Welcome to our curated deployment clearinghouse. Secure transactions, verified digital vendors, and instant logistical fulfillment.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. SYSTEM NAVIGATION & HORIZONTAL FILTER STRIP -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-5">
+        <div>
+            <h2 class="text-xl font-black text-white tracking-tight flex items-center gap-2">
+                📦 Latest Marketplace Releases
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Browse newly cataloged developer artifacts and assets</p>
+        </div>
+        
+        <!-- Interactive Category Quick Tags -->
+        <div class="flex flex-wrap gap-2">
+            <button class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-500 text-white shadow-lg shadow-blue-500/10 transition-all">All Inventory</button>
+            <button class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 transition-all">Premium</button>
+            <button class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 transition-all">Verified</button>
+        </div>
+    </div>
+
+    <!-- 3. PREMIUM DEPLOYMENT GRID LAYOUT -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for product in products %}
+            <div class="group bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-slate-700/80 transition-all duration-300 flex flex-col justify-between backdrop-blur-sm">
+                <div>
+                    <!-- Image Wrapper Container -->
+                    <div class="relative bg-slate-950 h-52 w-full flex items-center justify-center overflow-hidden border-b border-slate-800/60">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover h-full w-full group-hover:scale-105 transition-transform duration-500 ease-out">
+                        {% else %}
+                            <div class="flex flex-col items-center gap-2 text-slate-600">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V6.75zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                <span class="text-xs font-medium tracking-wide">Missing Media Vault Asset</span>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Floating Badges Over Image -->
+                        {% if product.category %}
+                        <span class="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] uppercase font-mono font-bold tracking-wider bg-slate-900/80 text-slate-400 border border-slate-700/50 backdrop-blur-md">
+                            {{ product.category.name }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Card Body Meta Content Area -->
+                    <div class="p-5 space-y-2">
+                        <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors truncate" title="{{ product.name }}">
+                            {{ product.name }}
+                        </h3>
+                        <p class="text-xs text-slate-400 line-clamp-2 min-h-[32px] leading-relaxed font-medium">
+                            {{ product.description|default:"No technical asset specification details provided by deployment developer log hooks." }}
+                        </p>
+                    </div>
                 </div>
-                <!-- Content Area -->
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-800 truncate mb-1">{{ product.name }}</h3>
-                    <p class="text-sm text-gray-500 line-clamp-2 min-h-[40px]">{{ product.description|default:"" }}</p>
+
+                <!-- Card Footer Bottom Pricing & CTA Layout -->
+                <div class="p-5 pt-0 border-t border-slate-800/40 mt-2 flex items-center justify-between gap-4">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-500">Retail price</span>
+                        <span class="text-xl font-black text-white tracking-tight">${{ product.price }}</span>
+                    </div>
+                    
+                    <a href="{% url 'products:product_detail' product.category.slug product.slug %}" 
+                       class="inline-flex items-center justify-center bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white px-4 py-2 rounded-xl text-xs font-bold border border-slate-700 hover:border-blue-500 shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+                        View Asset &rarr;
+                    </a>
                 </div>
             </div>
-            <!-- Bottom Pricing and CTA -->
-            <div class="p-4 pt-0 border-t border-gray-50 mt-4 flex items-center justify-between">
-                <span class="text-xl font-bold text-gray-900">${{ product.price }}</span>
-<a href="{% url 'products:product_detail' product.category.slug product.slug %}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">View Details</a>
-
+        {% empty %}
+            <!-- EMPTY STATE DESIGN MODULATION WRAPPER -->
+            <div class="col-span-full border border-dashed border-slate-800 bg-slate-900/10 rounded-2xl text-center py-16 px-4 space-y-4">
+                <div class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center mx-auto text-slate-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25m-2.25-2.25l-2.25 2.25m2.25-2.25l2.25-2.25M3.75 7.5L4.872 4.477A2.25 2.25 0 016.924 3H17.08a2.25 2.25 0 012.052 1.477L20.25 7.5M8.25 4.5V2.25A.75.75 0 019 1.5h6a.75.75 0 01.75.75V4.5"/></svg>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-base font-bold text-white">No Checkout Warehouse Units Verified</p>
+                    <p class="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+                        The store catalog registry index database is currently empty. Initialize a product row to display assets here.
+                    </p>
+                </div>
+                <a href="/admin/" class="inline-flex text-xs font-bold text-blue-400 hover:text-blue-300 underline transition-colors">
+                    Access System Admin Control Panel &rarr;
+                </a>
             </div>
-        </div>
-    {% empty %}
-        <div class="col-span-full text-center py-12">
-            <p class="text-gray-500 text-lg">No products found. Visit the admin dashboard to add some inventory!</p>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(max_length=50)),
                 ('email', models.EmailField(max_length=254)),
                 ('address', models.CharField(max_length=250)),
-                ('postal_code', models.CharField(max_length=20)),
+                ('phone', models.CharField(max_length=20)),
                 ('city', models.CharField(max_length=100)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('paid', models.BooleanField(default=False)),

@@ -157,7 +157,7 @@ def manual_order_create(request):
         last_name=request.POST.get('last_name'),
         email=request.POST.get('email'),
         address=request.POST.get('address'),
-        postal_code=request.POST.get('postal_code'),
+        phone=request.POST.get('phone'),
         city=request.POST.get('city'),
         paid=request.POST.get('paid') == 'true',
         delivered=request.POST.get('delivered') == 'true'

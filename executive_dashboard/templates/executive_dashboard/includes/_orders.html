@@ -22,7 +22,7 @@
                 <!-- Interactive Profile Anchor Trigger Tag -->
                 <td class="py-3.5">
                     <button type="button" 
-                            onclick="openCustomerModal('{{ order.id }}', '{{ order.first_name|escapejs }} {{ order.last_name|escapejs }}', '{{ order.email|escapejs }}', '{{ order.address|escapejs }}', '{{ order.city|escapejs }}', '{{ order.postal_code|escapejs }}', '{{ order.created_at|date:'M d, Y H:i' }}')" 
+                            onclick="openCustomerModal('{{ order.id }}', '{{ order.first_name|escapejs }} {{ order.last_name|escapejs }}', '{{ order.email|escapejs }}', '{{ order.address|escapejs }}', '{{ order.city|escapejs }}', '{{ order.phone|escapejs }}', '{{ order.created_at|date:'M d, Y H:i' }}')" 
                             class="text-blue-400 hover:text-blue-300 font-semibold hover:underline transition-colors text-left focus:outline-none">
                         {{ order.first_name }} {{ order.last_name }} &rarr;
                     </button>
@@ -82,7 +82,7 @@
                 <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Shipping Destination Route</label>
                 <div class="bg-slate-950/40 p-3 rounded-xl border border-slate-800/40 space-y-1 text-slate-300 font-medium">
                     <p id="modalCustomerAddress"></p>
-                    <p><span id="modalCustomerCity"></span>, <span id="modalCustomerPostalCode" class="font-mono text-slate-400 text-[11px]"></span></p>
+                    <p><span id="modalCustomerCity"></span>, <span id="modalCustomerPhone" class="font-mono text-slate-400 text-[11px]"></span></p>
                 </div>
             </div>
             <div>
@@ -105,7 +105,7 @@
         document.getElementById('modalCustomerEmail').innerText = email;
         document.getElementById('modalCustomerAddress').innerText = address;
         document.getElementById('modalCustomerCity').innerText = city;
-        document.getElementById('modalCustomerPostalCode').innerText = phone;
+        document.getElementById('modalCustomerPhone').innerText = phone;
         document.getElementById('modalOrderDate').innerText = date;
 
         // Perform animation triggers transition rendering toggles smoothly

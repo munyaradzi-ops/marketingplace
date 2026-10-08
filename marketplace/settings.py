@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
 # CSRF Trusted Origins for Railway deployment
 RAILWAY_PUBLIC_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
 if RAILWAY_PUBLIC_DOMAIN:
-    CSRF_TRUSTED_ORIGINS = [f'https://{RAILWAY_PUBLIC_DOMAIN}']
+    CSRF_TRUSTED_ORIGINS = [f'https://{RAILWAY_PUBLIC_DOMAIN}',f'https://shingi.up.railway.app']
 
 
 # Application definition

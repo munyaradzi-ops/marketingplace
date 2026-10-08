@@ -28,7 +28,7 @@ ALLOWED_HOSTS = [
     '10.91.25.43',
     '127.0.0.1',
     'localhost',
-    shingi.up.railway.app
+    'shingi.up.railway.app'
 ]
 
 # CSRF Trusted Origins for Railway deployment
